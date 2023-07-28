@@ -24,9 +24,13 @@ browser.maximize_window()
 
 # Sign in
 time.sleep(5)
-sign_in = browser.find_element(By.XPATH,"//a[contains(text(),'Sign In')]") # user name = ganisolo@superrito.com & password - Delete123
+sign_in = browser.find_element(By.XPATH,"//a[contains(text(),'Sign In')]") ## user name = ganisolo@superrito.com & password - Delete123
 sign_in.click()
-time.sleep(60)
+time.sleep(4)
+user_name = browser.find_element(By.XPATH,"//input[@id='email']").send_keys('ganisolo@superrito.com')
+time.sleep(4)
+password = browser.find_element(By.XPATH,"//input[@class='password-input__input password-input__input--mask']").send_keys('Delete123')
+time.sleep(5)
 browser.find_element(By.XPATH,"//button[@class='user-form__submit-button user-form__button']").click()
 print('Successfully Signed in')
 
