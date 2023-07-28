@@ -25,9 +25,13 @@ browser.maximize_window()
 
 # log in
 time.sleep(5)
-log_in = browser.find_element(By.XPATH,"//a[@id='ctl00_LoginStatus1']")   # User Name: Harris12   Password: delete@321
+log_in = browser.find_element(By.XPATH,"//a[@id='ctl00_LoginStatus1']") # User Name: Harris12   Password: delete@321 
 log_in.click()
-time.sleep(60)
+time.sleep(4)
+user_name = browser.find_element(By.XPATH,"//input[@id='ctl00_ContentPlaceHolder1_Login1_UserName']").send_keys('Harris12')
+time.sleep(4)
+password = browser.find_element(By.XPATH,"//input[@id='ctl00_ContentPlaceHolder1_Login1_Password']").send_keys('delete@321')
+time.sleep(5)
 checkbox = browser.find_element(By.XPATH,"//input[@type='checkbox']")
 checkbox.click()
 time.sleep(2)
