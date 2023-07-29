@@ -70,8 +70,8 @@ time.sleep(3)
 search = browser.find_element(By.XPATH,"//input[@id='ctl00_ContentPlaceHolder1_btnSearch']")
 search.click()
 time.sleep(10)
-# Counting the total pages & Counting the total documents & How much documents it's downloaded
 
+# Counting the total pages & Counting the total documents & How much documents it's downloaded
 total_pages = 0
 total_downloaded = 0
 p = 0
@@ -81,33 +81,36 @@ while True:
     print('Scrapping page:', p)
     element_count = len(browser.find_elements(By.XPATH, "//div[@id='ctl00_ContentPlaceHolder1_UpdatePanelAddtoCart']"))
     total_pages += element_count
-
-    flim_code = browser.find_elements(By.XPATH, "//a[contains(text(),'RP')]")
-    codes = []
-    for code in flim_code:
-        codes.append(code.text)
-    del (codes[0])
-    total_downloaded = total_downloaded + len(codes)
-
-    for i in range(len(codes)):
-        click_form = browser.find_element(By.LINK_TEXT, codes[i])
-        click_form.click()
-        time.sleep(20)
-
-    print('Successfully downloaded', len(codes), 'documents in page', p)
-    scroll_top = browser.find_element(By.XPATH, "//div[@title='Scroll Back to Top']").click()
-    time.sleep(5)
     try:
-        next_button = browser.find_element(By.XPATH, "//input[@value='Next']")
-        time.sleep(4)
-        next_button.click()
+        flim_code = browser.find_elements(By.XPATH, "//a[contains(text(),'RP')]")
+        codes = []
+        for code in flim_code:
+            codes.append(code.text)
+
+        total_downloaded = total_downloaded + len(codes)
+
+        for i in range(len(codes)):
+            click_form = browser.find_element(By.LINK_TEXT, codes[i])
+            click_form.click()
+            time.sleep(12)
+
+        print('Successfully downloaded', len(codes), 'documents in page', p)
+        scroll_top = browser.find_element(By.XPATH, "//div[@title='Scroll Back to Top']").click()
+        time.sleep(5)
+        try:
+            next_button = browser.find_element(By.XPATH, "//input[@value='Next']")
+            time.sleep(4)
+            next_button.click()
+        except Exception as e:
+            break
+        time.sleep(5)
     except Exception as e:
         break
     time.sleep(5)
 
 print('Total Pages: ', total_pages)
 print('Total downloaded documents:', total_downloaded)
-time.sleep(15)
+time.sleep(6)
 
 # For Warranty Deed
 
@@ -143,8 +146,8 @@ time.sleep(3)
 search = browser.find_element(By.XPATH,"//input[@id='ctl00_ContentPlaceHolder1_btnSearch']")
 search.click()
 time.sleep(10)
-# Counting the total pages & Counting the total documents & How much documents it's downloaded
 
+# Counting the total pages & Counting the total documents & How much documents it's downloaded
 total_pages = 0
 total_downloaded = 0
 p = 0
@@ -154,30 +157,35 @@ while True:
     print('Scrapping page:', p)
     element_count = len(browser.find_elements(By.XPATH, "//div[@id='ctl00_ContentPlaceHolder1_UpdatePanelAddtoCart']"))
     total_pages += element_count
-
-    flim_code = browser.find_elements(By.XPATH, "//a[contains(text(),'RP')]")
-    codes = []
-    for code in flim_code:
-        codes.append(code.text)
-    del (codes[0])
-    total_downloaded = total_downloaded + len(codes)
-
-    for i in range(len(codes)):
-        click_form = browser.find_element(By.LINK_TEXT, codes[i])
-        click_form.click()
-        time.sleep(20)
-
-    print('Successfully downloaded', len(codes), 'documents in page', p)
-    scroll_top = browser.find_element(By.XPATH, "//div[@title='Scroll Back to Top']").click()
-    time.sleep(5)
     try:
-        next_button = browser.find_element(By.XPATH, "//input[@value='Next']")
-        time.sleep(4)
-        next_button.click()
+        flim_code = browser.find_elements(By.XPATH, "//a[contains(text(),'RP')]")
+        codes = []
+        for code in flim_code:
+            codes.append(code.text)
+
+        total_downloaded = total_downloaded + len(codes)
+
+        for i in range(len(codes)):
+            click_form = browser.find_element(By.LINK_TEXT, codes[i])
+            click_form.click()
+            time.sleep(12)
+
+        print('Successfully downloaded', len(codes), 'documents in page', p)
+        scroll_top = browser.find_element(By.XPATH, "//div[@title='Scroll Back to Top']").click()
+        time.sleep(5)
+        try:
+            next_button = browser.find_element(By.XPATH, "//input[@value='Next']")
+            time.sleep(4)
+            next_button.click()
+        except Exception as e:
+            break
+        time.sleep(5)
     except Exception as e:
         break
     time.sleep(5)
+
 print('Total Pages: ', total_pages)
 print('Total downloaded documents:', total_downloaded)
+time.sleep(6)
 
 browser.quit()
