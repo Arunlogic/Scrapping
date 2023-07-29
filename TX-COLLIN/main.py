@@ -75,34 +75,37 @@ total_pages = 0
 total = 0
 p = 0
 while True:
-    time.sleep(8)
-    p = p + 1
-    print('Scrapping page:', p)
+    time.sleep(5)
+    p = p+1
+    print('Scrapping page:',p)
     element_count = len(browser.find_elements(By.XPATH, "//div[@class='a11y-table']"))
     total_pages += element_count
-
-    links = browser.find_elements(By.XPATH, "//td[@class='col-7']")
+    
+    links = browser.find_elements(By.XPATH,"//td[@class='col-7']")
     hrefs = []
     for c in links:
         hrefs.append(c.text)
     print(hrefs)
-    total = total + len(hrefs)
-
+    
+    total = total+len(hrefs)
+    
     for i in range(len(hrefs)):
-        doc_no = browser.find_element(By.XPATH, "//span[contains(text(),'" + hrefs[i] + "')]")
+        doc_no = browser.find_element(By.XPATH,"//span[contains(text(),'"+hrefs[i]+"')]")
         doc_no.click()
-        time.sleep(15)
-        download = browser.find_element(By.XPATH, "//button[contains(text(),'Download')]")
+        time.sleep(6)
+        browser.execute_script("window.scrollTo(0, 0);")
+        time.sleep(2)
+        download = browser.find_element(By.XPATH,"//button[contains(text(),'Download')]")
         download.click()
-        time.sleep(20)
+        time.sleep(18)
         browser.back()
-        time.sleep(8)
-
-    print('Successfully downloaded', len(hrefs), 'documents in page', p)
-
+        time.sleep(5)
+    
+    print('Successfully downloaded',len(hrefs),'documents in page',p)
+   
     browser.execute_script("window.scrollTo(0, document.body.scrollHeight);")
     time.sleep(4)
-
+    
     try:
         next_button = browser.find_element(By.XPATH,"//button[@class='pagination__page-jump'][@aria-label='next page']")
         time.sleep(5)
@@ -110,8 +113,8 @@ while True:
     except Exception as e:
         break
     time.sleep(5)
-print('Total Pages: ', total_pages)
-print('Total downloaded documents:', total)
+print('Total Pages: ',total_pages)
+print('Total downloaded documents:',total)
 
 #Deed
 
@@ -156,34 +159,37 @@ total_pages = 0
 total = 0
 p = 0
 while True:
-    time.sleep(8)
-    p = p + 1
-    print('Scrapping page:', p)
+    time.sleep(5)
+    p = p+1
+    print('Scrapping page:',p)
     element_count = len(browser.find_elements(By.XPATH, "//div[@class='a11y-table']"))
     total_pages += element_count
-
-    links = browser.find_elements(By.XPATH, "//td[@class='col-7']")
+    
+    links = browser.find_elements(By.XPATH,"//td[@class='col-7']")
     hrefs = []
     for c in links:
         hrefs.append(c.text)
     print(hrefs)
-    total = total + len(hrefs)
-
+    
+    total = total+len(hrefs)
+    
     for i in range(len(hrefs)):
-        doc_no = browser.find_element(By.XPATH, "//span[contains(text(),'" + hrefs[i] + "')]")
+        doc_no = browser.find_element(By.XPATH,"//span[contains(text(),'"+hrefs[i]+"')]")
         doc_no.click()
-        time.sleep(15)
-        download = browser.find_element(By.XPATH, "//button[contains(text(),'Download')]")
+        time.sleep(6)
+        browser.execute_script("window.scrollTo(0, 0);")
+        time.sleep(2)
+        download = browser.find_element(By.XPATH,"//button[contains(text(),'Download')]")
         download.click()
-        time.sleep(20)
+        time.sleep(18)
         browser.back()
-        time.sleep(8)
-
-    print('Successfully downloaded', len(hrefs), 'documents in page', p)
-
+        time.sleep(5)
+    
+    print('Successfully downloaded',len(hrefs),'documents in page',p)
+   
     browser.execute_script("window.scrollTo(0, document.body.scrollHeight);")
     time.sleep(4)
-
+    
     try:
         next_button = browser.find_element(By.XPATH,"//button[@class='pagination__page-jump'][@aria-label='next page']")
         time.sleep(5)
@@ -191,7 +197,6 @@ while True:
     except Exception as e:
         break
     time.sleep(5)
-print('Total Pages: ', total_pages)
-print('Total downloaded documents:', total)
-
+print('Total Pages: ',total_pages)
+print('Total downloaded documents:',total)
 browser.quit()
