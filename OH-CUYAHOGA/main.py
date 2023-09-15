@@ -6,7 +6,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait, Select
 from selenium.webdriver.chrome.options import Options
 
-path = 'C://IonIdea//Chrome Web Driver_114//chromedriver'
+path  = "C://IonIdea//Chrome Web Driver_116//chromedriver-win64//chromedriver"
 
 path_to_save_pdf = 'C:\\IonIdea\\County_Downloaded_Documents\\OH-CUYAHOGA'
 chrome_options = Options()
@@ -35,180 +35,135 @@ time.sleep(4)
 browser.find_element(By.XPATH,"//button[@class='user-form__submit-button user-form__button']").click()
 print('Successfully Signed in')
 
-# From date
-time.sleep(5)
-start_date = '09/20/2022'
-input_start_date = browser.find_element(By.XPATH,"//input[@id='recordedDateRange']")
-time.sleep(3)
-input_start_date.send_keys(Keys.CONTROL, 'a')
-time.sleep(4)
-input_start_date.send_keys(Keys.BACKSPACE)
-time.sleep(4)
-input_start_date.send_keys(start_date)
-
-# To date
-time.sleep(3)
-end_date = '09/20/2022'
-input_end_date = browser.find_element(By.XPATH,"//input[@aria-label='end date']")
-time.sleep(3)
-input_end_date.send_keys(Keys.CONTROL, 'a')
-time.sleep(4)
-input_end_date.send_keys(Keys.BACKSPACE)
-time.sleep(4)
-input_end_date.send_keys(end_date)
-time.sleep(3)
-click_somewhere = browser.find_element(By.XPATH,"//input[@id='parcel']").click()
-
-# Selecting document type
-time.sleep(5)
-document = browser.find_element(By.XPATH,"//input[@id='docTypes-input']").click()
-time.sleep(5)
-sending = browser.find_element(By.XPATH,"//input[@id='docTypes-input']").send_keys('MORTGAGE')
-time.sleep(5)
-
-mort = browser.find_elements(By.XPATH,"//div[@class='checkbox__controls']")
-#mort = browser.find_element(By.XPATH,"//input[@name='MORTGAGE'][@type='checkbox']")
-time.sleep(3)
-length = 0
-for m in mort:
-    length+=1
-    if length ==1:
-        m.click()
-        break
-    time.sleep(3)
-print('Successfully clicked the document type')
-
-# Search
-time.sleep(5)
-browser.execute_script("window.scrollBy(0,600)","")
-time.sleep(3)
-search = browser.find_element(By.XPATH,"//button[@class='css-1aabfxg']")
-search.click()
-time.sleep(15)
-
-# Counting the total pages & Counting the total documents & How much documents it's downloaded
-total_pages = 0
-total = 0
-p = 0
-while True:
+def documents(docu_type):
     time.sleep(5)
-    p = p + 1
-    print('Scrapping page:', p)
-    element_count = len(browser.find_elements(By.XPATH, "//div[@class='a11y-table']"))
-    total_pages += element_count
+    start_date = '09/11/2023'
+    input_start_date = browser.find_element(By.XPATH,"//input[@id='recordedDateRange']")
+    time.sleep(2)
+    input_start_date.send_keys(Keys.CONTROL, 'a')
+    time.sleep(2)
+    input_start_date.send_keys(Keys.BACKSPACE)
+    time.sleep(2)
+    input_start_date.send_keys(start_date)
+    
+    time.sleep(2)
+    end_date = '09/14/2023'
+    input_end_date = browser.find_element(By.XPATH,"//input[@aria-label='end date']")
+    time.sleep(2)
+    input_end_date.send_keys(Keys.CONTROL, 'a')
+    time.sleep(2)
+    input_end_date.send_keys(Keys.BACKSPACE)
+    time.sleep(2)
+    input_end_date.send_keys(end_date)
+    
+    # doc_type
+    if docu_type=='Mortgage':
+        # Selecting document type
 
-    document_number = []
-    ids = browser.find_elements(By.XPATH, "//td[@class='col-7']")
-    for d in ids:
-        document_number.append(d.text)
-    print(document_number)
-    total = total + len(document_number)
-
-    for i in range(len(document_number)):
-        view = browser.find_element(By.XPATH,"//span[contains(text(),'"+document_number[i]+"')]")
-        view.click()
-        time.sleep(8)
-        download = browser.find_element(By.XPATH, "//button[contains(text(),'Download')]")
-        download.click()
-        time.sleep(15)
-        browser.back()
-        time.sleep(10)
-
-    print('Successfully downloaded', len(document_number), 'documents in page', p)
-
-    browser.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-    time.sleep(4)
-
-    try:
-        next_button = browser.find_element(By.XPATH,"//button[@class='pagination__page-jump'][@aria-label='next page']")
         time.sleep(5)
-        next_button.click()
-    except Exception as e:
-        break
-    time.sleep(5)
-print('Total Pages: ', total_pages)
-print('Total downloaded documents:', total)
+        document = browser.find_element(By.XPATH,"//input[@id='docTypes-input']").click()
+        time.sleep(2)
+        sending = browser.find_element(By.XPATH,"//input[@id='docTypes-input']").send_keys('MORTGAGE')
+        time.sleep(2)
 
-for p in range(total_pages):
-    browser.back()
+        mort = browser.find_elements(By.XPATH,"//div[@class='checkbox__controls']")
+        time.sleep(1)
+        length = 0
+        for m in mort:
+            length+=1
+            if length ==1:
+                m.click()
+                break
+            time.sleep(3)
+    
+    else:
+        # Selecting document type
+
+        time.sleep(3)
+        document = browser.find_element(By.XPATH,"//input[@id='docTypes-input']").click()
+        time.sleep(2)
+        sending = browser.find_element(By.XPATH,"//input[@id='docTypes-input']").send_keys('DEED')
+        time.sleep(2)
+
+        mort = browser.find_elements(By.XPATH,"//div[@class='checkbox__controls']")
+        time.sleep(2)
+        length = 0
+        for m in mort:
+            length+=1
+            if length ==1:
+                m.click()
+                break
+            time.sleep(3)
+        print('Successfully clicked DEED')
+        
+    # Search
+    time.sleep(3)
+    browser.execute_script("window.scrollBy(0,600)","")
+    time.sleep(3)
+    search = browser.find_element(By.XPATH,"//button[@class='css-1aabfxg']")
+    search.click()
+    time.sleep(12)
+    
+    # download
+    total_pages = 0
+    total = 0
+    p = 0
+    while True:
+        time.sleep(8)
+        p = p+1
+        print('Scrapping page:',p)
+        element_count = len(browser.find_elements(By.XPATH, "//div[@class='a11y-table']"))
+        total_pages += element_count
+
+        links = browser.find_elements(By.XPATH,"//td[@class='col-7']")
+        hrefs = []
+        for c in links:
+            hrefs.append(c.text)
+        print(hrefs)
+        total = total+len(hrefs)
+        links = browser.find_element(By.XPATH,"//td[@class='col-7']").click()
+        time.sleep(8)
+        for i in range(len(hrefs)):
+            download = browser.find_element(By.XPATH,"//button[contains(text(),'Download')]")
+            download.click()
+            time.sleep(28)
+            try:
+                next_result = browser.find_element(By.XPATH,"//button[contains(text(),'Next Result')]")
+                next_result.click()
+                time.sleep(10)
+            except Exception as e:
+                break
+
+        back_to_results = browser.find_element(By.XPATH,"//button[contains(text(),'Back to Results')]").click() 
+        time.sleep(8)
+        
+        print('Successfully downloaded',len(hrefs),'documents in page',p)
+
+
+        browser.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+        time.sleep(4)
+
+        try:
+            next_button = browser.find_element(By.XPATH,"//button[@aria-disabled='false'][@aria-label='next page']")
+            next_button.click()
+        except Exception as e:
+            break
+        time.sleep(5)
+    print('Total Pages: ',total_pages)
+    print('Total downloaded documents:',total)
+    
+    edit = browser.find_element(By.XPATH,"//div[@class='search-results-header__row']/div/div[4]/a/div/img").click()
     time.sleep(8)
+    removing_type = browser.find_elements(By.XPATH,"//button[@class='react-tokenized-select__remove-button']")
+    for re in removing_type:
+        re.click()
+        time.sleep(3)
+    
+documents('Mortgage')
 
-# Deed
-time.sleep(5)
-browser.execute_script("window.scrollBy(0,-300)","")
-time.sleep(5)
-removing_type = browser.find_element(By.XPATH,"//button[@class='react-tokenized-select__remove-button']")
-removing_type.click()
-
-# Selecting document type
-
-time.sleep(5)
-document = browser.find_element(By.XPATH,"//input[@id='docTypes-input']").click()
-time.sleep(5)
-sending = browser.find_element(By.XPATH,"//input[@id='docTypes-input']").send_keys('DEED')
-time.sleep(5)
-
-mort = browser.find_elements(By.XPATH,"//div[@class='checkbox__controls']")
-#mort = browser.find_element(By.XPATH,"//input[@name='MORTGAGE'][@type='checkbox']")
-time.sleep(3)
-length = 0
-for m in mort:
-    length+=1
-    if length ==1:
-        m.click()
-        break
-    time.sleep(3)
-print('Successfully clicked DEED')
-
-# Search
-time.sleep(5)
-browser.execute_script("window.scrollBy(0,600)","")
-time.sleep(3)
-search = browser.find_element(By.XPATH,"//button[@class='css-1aabfxg']")
-search.click()
-time.sleep(15)
-
-# To download
-total_pages = 0
-total = 0
-p = 0
-while True:
-    time.sleep(15)
-    p = p + 1
-    print('Scrapping page:', p)
-    element_count = len(browser.find_elements(By.XPATH, "//div[@class='a11y-table']"))
-    total_pages += element_count
-
-    links = browser.find_elements(By.XPATH, "//td[@class='col-7']")
-    hrefs = []
-    for c in links:
-        hrefs.append(c.text)
-    print(hrefs)
-    total = total + len(hrefs)
-
-    for i in range(len(hrefs)):
-        doc_no = browser.find_element(By.XPATH, "//span[contains(text(),'" + hrefs[i] + "')]")
-        doc_no.click()
-        time.sleep(15)
-        download = browser.find_element(By.XPATH, "//button[contains(text(),'Download')]")
-        download.click()
-        time.sleep(20)
-        browser.back()
-        time.sleep(8)
-
-    print('Successfully downloaded', len(hrefs), 'documents in page', p)
-
-    browser.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-    time.sleep(4)
-
-    try:
-        next_button = browser.find_element(By.XPATH,"//button[@class='pagination__page-jump'][@aria-label='next page']")
-        time.sleep(5)
-        next_button.click()
-    except Exception as e:
-        break
-    time.sleep(10)
-print('Total Pages: ', total_pages)
-print('Total downloaded documents:', total)
+#documents('Deed')
 
 browser.quit()
+
+
+    
